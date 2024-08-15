@@ -16,6 +16,28 @@ def load_json_file(file_path):
 # Load all the links
 links_data = load_json_file("links.json")
 
+from fuzzywuzzy import process
+
+# Define the variants of "deadlines"
+variants = ["deadline", "final date", "due date", "cut-off date", "submission date", "time limit"]
+
+# Input string
+input_string = "The final date for submissions is approaching."
+
+# Function to perform fuzzy search and return fixed text if match is found
+def fuzzy_search(text, variants, threshold=80):
+    # Check each variant in the variants list
+    for variant in variants:
+        # Use fuzzy matching to find the closest match and its score
+        match, score = process.extractOne(variant, [text])
+        # If the score exceeds the threshold, return the fixed wall of text
+        if score > threshold:
+            return """This information might come in handy for you:
+- Califo deadline: 
+- UCAS deadline: """
+    # If no variant exceeds the threshold, return an indication of no match
+    return "No relevant deadlines found."
+
 uri = st.secrets["MONGO_DB"]
 
 # Create a new client and connect to the server
