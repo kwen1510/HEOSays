@@ -1,3 +1,3 @@
 Add in RAG into this
 Understand the intent of the user to see if they are interested in deadlines
-Re-ranking
+Re-ranking or ensure that the search results return different documents (using hard coding)
