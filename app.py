@@ -77,20 +77,32 @@ if st.button("Search"):
             
     query_results = search(query, num_results)
 
-    for match in query_results['matches']:
-        page_number = match['metadata']['page_number']
-        score = match['score']
-        text = match['metadata']['text']
-        words = text.replace('\n', ' ').strip().split()
-        truncated_text = ' '.join(words[:30]) + "..."
+    # Set threshold value
+    threshold = 0.4
 
-        page_key = page_number.split(" page")[0].strip()
-        
-        link = links_data.get(page_key, "No link available")
-        
-        st.text(f"Page: {page_number} (Score: {score * 100:.2f}%)\nContext: {truncated_text}\n------\n")
-        
-        st.markdown(f"[Click here to access the document]({link})")
+    # Check top score first. If below threshold, reject
+    top_score = query_results['matches'][0]['score']
+    print(top_score)
+
+    if top_score >= threshold:
+
+        for match in query_results['matches']:
+            page_number = match['metadata']['page_number']
+            score = match['score']
+            text = match['metadata']['text']
+            words = text.replace('\n', ' ').strip().split()
+            truncated_text = ' '.join(words[:30]) + "..."
+    
+            page_key = page_number.split(" page")[0].strip()
+            
+            link = links_data.get(page_key, "No link available")
+            
+            st.text(f"Page: {page_number} (Score: {score * 100:.2f}%)\nContext: {truncated_text}\n------\n")
+            
+            st.markdown(f"[Click here to access the document]({link})")
+
+    else:
+        st.text("I found nothing...")
 
     # for result in search_results:
     #     words = result['text'].replace('\n', ' ').strip().split()
