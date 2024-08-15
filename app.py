@@ -6,6 +6,12 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
 
+# Load JSON Data
+def load_json_file(file_path):
+    with open(file_path) as f:
+        data = json.load(f)
+    return data
+
 # Load all the links
 links_data = load_json_file("links.json")
 
