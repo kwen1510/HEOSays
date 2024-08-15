@@ -107,8 +107,6 @@ if st.button("Search"):
         # Display the table
         st.table(deadlines)
 
-    else:
-
     # Set threshold value
     threshold = 0.4
 
