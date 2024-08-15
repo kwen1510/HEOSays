@@ -27,7 +27,7 @@ except Exception as e:
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
 
 # Search function
-def search(query, index, metadata, num_results=1):
+def search(query, num_results=1):
 
     # Save question to MongoDB
     current_time = datetime.now()  # Get current date and time
@@ -67,7 +67,7 @@ num_results = st.slider("Number of results", 1, 5, 3, 1)
 
 if st.button("Search"):
             
-    query_results = search(query, ann_index, metadata_array, num_results)
+    query_results = search(query, num_results)
 
     for match in query_results['matches']:
         page_number = match['metadata']['page_number']
