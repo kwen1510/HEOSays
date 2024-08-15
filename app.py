@@ -33,9 +33,7 @@ def fuzzy_search(text, variants, threshold=80):
         match, score = process.extractOne(variant, [text])
         # If the score exceeds the threshold, return the fixed wall of text
         if score > threshold:
-            return """This information might come in handy for you:
-- Califo deadline: 
-- UCAS deadline: """
+            return "want deadlines"
     # If no variant exceeds the threshold, return an indication of no match
     return "No relevant deadlines found."
 
@@ -127,19 +125,10 @@ if st.button("Search"):
         # Perform the fuzzy search
         result = fuzzy_search(input_string, variants)
 
-        st.text(result)
+        if result == "want deadlines":
+            # Display the table
+            st.table(deadlines)
 
     else:
         print("No relevent sources found")
         st.text("I could not find anything relevant :(")
-
-    # for result in search_results:
-    #     words = result['text'].replace('\n', ' ').strip().split()
-    #     truncated_text = ' '.join(words[:30]) + "..."
-        
-    #     page_key = result['page_number'].split(" page")[0].strip()
-        
-    #     link = links_data.get(page_key, "No link available")
-        
-    #     st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
-    #     st.markdown(f"[Click here to access the document]({link})")
