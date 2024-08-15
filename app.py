@@ -93,6 +93,7 @@ st.title("HEOSays")
 
 query = st.text_input("Enter your query here")
 # num_results = st.slider("Number of results", 1, 5, 3, 1)
+num_results = 5
 
 if st.button("Search"):
             
@@ -108,19 +109,22 @@ if st.button("Search"):
     if top_score >= threshold:
 
         for match in query_results['matches']:
-            page_number = match['metadata']['page_number']
-            score = match['score']
-            text = match['metadata']['text']
-            words = text.replace('\n', ' ').strip().split()
-            truncated_text = ' '.join(words[:30]) + "..."
-    
-            page_key = page_number.split(" page")[0].strip()
-            
-            link = links_data.get(page_key, "No link available")
-            
-            st.text(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
-            
-            st.markdown(f"[Click here to access the document]({link})")
+
+            if top_score >= threshold:
+           
+                page_number = match['metadata']['page_number']
+                score = match['score']
+                text = match['metadata']['text']
+                words = text.replace('\n', ' ').strip().split()
+                truncated_text = ' '.join(words[:30]) + "..."
+        
+                page_key = page_number.split(" page")[0].strip()
+                
+                link = links_data.get(page_key, "No link available")
+                
+                st.text(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
+                
+                st.markdown(f"[Click here to access the document]({link})")
 
     # Perform the fuzzy search to see if the person wants deadlines
     result = fuzzy_search(input_string, variants)
