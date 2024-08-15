@@ -126,8 +126,8 @@ if st.button("Search"):
                 
                 st.markdown(f"[Click here to access the document]({link})")
 
-    # Perform the fuzzy search to see if the person wants deadlines
-    result = fuzzy_search(input_string, variants)
+        # Perform the fuzzy search to see if the person wants deadlines
+        result = fuzzy_search(input_string, variants)
 
         if result == "want deadlines":
     
