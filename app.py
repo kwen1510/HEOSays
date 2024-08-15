@@ -116,7 +116,7 @@ if st.button("Search"):
     top_score = query_results['matches'][0]['score']
     print(top_score)
 
-    top_score >= threshold:
+    if top_score >= threshold:
 
         for match in query_results['matches']:
 
