@@ -129,12 +129,12 @@ if st.button("Search"):
     # Perform the fuzzy search to see if the person wants deadlines
     result = fuzzy_search(input_string, variants)
 
-    if result == "want deadlines":
-
-        st.subheader("You might find these info useful:")
-        
-        # Display the table
-        st.table(deadlines)
+        if result == "want deadlines":
+    
+            st.subheader("You might find these info useful:")
+            
+            # Display the table
+            st.table(deadlines)
 
     else:
         print("No relevent sources found")
