@@ -3,3 +3,4 @@ annoy
 cohere
 pymongo
 pinecone-client
+fuzzywuzzy
