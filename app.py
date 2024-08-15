@@ -96,6 +96,18 @@ query = st.text_input("Enter your query here")
 num_results = 5
 
 if st.button("Search"):
+
+    # Perform the fuzzy search to see if the person wants deadlines
+    result = fuzzy_search(input_string, variants)
+
+    if result == "want deadlines":
+
+        st.subheader("Seems like you are interested in the application deadlines:")
+        
+        # Display the table
+        st.table(deadlines)
+
+        pass
             
     query_results = search(query, num_results)
 
@@ -126,15 +138,15 @@ if st.button("Search"):
                 
                 st.markdown(f"[Click here to access the document]({link})")
 
-        # Perform the fuzzy search to see if the person wants deadlines
-        result = fuzzy_search(input_string, variants)
+        # # Perform the fuzzy search to see if the person wants deadlines (append to end)
+        # result = fuzzy_search(input_string, variants)
 
-        if result == "want deadlines":
+        # if result == "want deadlines":
     
-            st.subheader("You might also find these info useful:")
+        #     st.subheader("You might also find these info useful:")
             
-            # Display the table
-            st.table(deadlines)
+        #     # Display the table
+        #     st.table(deadlines)
 
     else:
         print("No relevent sources found")
