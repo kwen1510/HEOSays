@@ -107,18 +107,18 @@ if st.button("Search"):
         # Display the table
         st.table(deadlines)
 
-        break
-            
-    query_results = search(query, num_results)
+    else:
 
     # Set threshold value
     threshold = 0.4
+
+    query_results = search(query, num_results)
 
     # Check top score first. If below threshold, reject
     top_score = query_results['matches'][0]['score']
     print(top_score)
 
-    else top_score >= threshold:
+    top_score >= threshold:
 
         for match in query_results['matches']:
 
