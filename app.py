@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import os
 import cohere
+from pinecone import Pinecone
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
