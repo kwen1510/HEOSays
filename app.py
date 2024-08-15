@@ -6,6 +6,9 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
 
+# Load all the links
+links_data = load_json_file("links.json")
+
 uri = st.secrets["MONGO_DB"]
 
 # Create a new client and connect to the server
@@ -72,9 +75,13 @@ if st.button("Search"):
         text = match['metadata']['text']
         words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
+
+        page_key = result['page_number'].split(" page")[0].strip()
         
-        st.markdown(f"**{page_number} ({score:.3f})**")
-        st.write("Context:", truncated_text)
+        link = links_data.get(page_key, "No link available")
+        
+        st.text("Page: " + result['page_number'] + " (Score: " + score + ")" + "\nContext: " + truncated_text + "\n------\n")
+        st.markdown(f"[Click here to access the document]({link})")
 
     # for result in search_results:
     #     words = result['text'].replace('\n', ' ').strip().split()
