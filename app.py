@@ -15,6 +15,7 @@ def load_json_file(file_path):
 
 # Load all the links
 links_data = load_json_file("links.json")
+deadlines = load_json_file("deadlines.json")
 
 from fuzzywuzzy import process
 
