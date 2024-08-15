@@ -24,34 +24,14 @@ variants = ["deadline", "final date", "due date", "cut-off date", "submission da
 # Input string
 input_string = "The final date for submissions is approaching."
 
-def fuzzy_search(text, variants, thresholds):
-    results = []
+# Function to perform fuzzy search and return fixed text if match is found
+def fuzzy_search(text, variants, threshold=85):  # Increased threshold
+    # Token Set Ratio considers similar words in any order
     for variant in variants:
-        token_set_score = fuzz.token_set_ratio(text, variant)
-        token_sort_score = fuzz.token_sort_ratio(text, variant)
-        partial_score = fuzz.partial_ratio(text, variant)
-
-        results.append({
-            'variant': variant,
-            'token_set_score': token_set_score,
-            'token_sort_score': token_sort_score,
-            'partial_score': partial_score
-        })
-
-        # Check if any score exceeds its respective threshold
-        if (token_set_score > thresholds['token_set'] or
-            token_sort_score > thresholds['token_sort'] or
-            partial_score > thresholds['partial']):
-            return "want deadlines", results  # Return on first match exceeding thresholds
-
-    return "No relevant deadlines found.", results
-
-# Thresholds dictionary
-fuzzy_thresholds = {
-    'token_set': 85,
-    'token_sort': 80,
-    'partial': 75
-}
+        score = process.token_set_ratio(text, variant)
+        if score > threshold:
+            return "want deadlines"
+    return "No relevant deadlines found."
 
 uri = st.secrets["MONGO_DB"]
 
@@ -114,8 +94,7 @@ num_results = 5
 if st.button("Search"):
 
     # Perform the fuzzy search to see if the person wants deadlines
-    # result = fuzzy_search(input_string, variants)
-    result, debug_info = fuzzy_search(input_string, variants, fuzzy_thresholds)
+    result = fuzzy_search(input_string, variants)
 
     st.text(result)
     
