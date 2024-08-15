@@ -52,8 +52,8 @@ def search(query, num_results=1):
     PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
     pc = Pinecone(api_key=PINECONE_API_KEY)
 
-    index_name = "heo-say-2023"
-    namespace="HEOSAYS2023"
+    index_name = st.secrets["INDEX_NAME"]
+    namespace = st.secrets["NAMESPACE"]
     
     index = pc.Index(index_name)
     
