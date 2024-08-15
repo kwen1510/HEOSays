@@ -30,12 +30,31 @@ def search(query, index, metadata, num_results=1):
     current_time = datetime.now()  # Get current date and time
     collection.insert_one({"question": query, "timestamp": current_time})
 
-    # Generate query embedding with Cohere
-    response = co.embed(texts=[query], model='large')
-    query_embedding = response.embeddings[0]
+    # Get embeddings from Cohere
+    response = co.embed(
+        texts=[query], model="embed-english-v3.0", input_type="search_query"
+    )
+
+    embeddings = response.embeddings[0]
+
+    # Can filter by scores to say if the result is relevant
+
+    PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
+
+    index_name = "heo-say-2023"
+    namespace="HEOSAYS2023"
     
-    # nearest_neighbors = index.get_nns_by_vector(query_embedding, num_results)
-    # return [metadata[i] for i in nearest_neighbors]
+    index = pc.Index(index_name)
+    
+    query_results = index.query(
+        namespace=namespace,
+        vector=embeddings,
+        top_k=3,
+        include_values=False,
+        include_metadata=True
+    )
+
+    return query_results
 
 # Streamlit interface
 st.title("HEOSays")
@@ -44,13 +63,18 @@ query = st.text_input("Enter your query here")
 num_results = st.slider("Number of results", 1, 5, 3, 1)
 
 if st.button("Search"):
-    # Preparing metadata array; adjust according to your structure if needed
-    metadata_array = []
-    # for key, values in loaded_data.items():
-    #     for value in values:
-    #         metadata_array.append({"page_number": key, "text": value})
             
-    # search_results = search(query, ann_index, metadata_array, num_results)
+    query_results = search(query, ann_index, metadata_array, num_results)
+
+    for match in query_results['matches']:
+        page_number = match['metadata']['page_number']
+        score = match['score']
+        text = match['metadata']['text']
+        words = result['text'].replace('\n', ' ').strip().split()
+        truncated_text = ' '.join(words[:30]) + "..."
+        
+        st.markdown(f"**{page_number} ({score:.3f})**")
+        st.write("Context:", truncated_text)
 
     # for result in search_results:
     #     words = result['text'].replace('\n', ' ').strip().split()
