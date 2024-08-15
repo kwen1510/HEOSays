@@ -1,0 +1,5 @@
+streamlit
+annoy
+cohere
+pymongo
+pinecone-client
