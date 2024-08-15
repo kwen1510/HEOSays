@@ -8,6 +8,9 @@ from pymongo.server_api import ServerApi
 from datetime import datetime
 from fuzzywuzzy import process
 
+# Need to include the parameters here
+context_length = 50
+
 # Load JSON Data
 def load_json_file(file_path):
     with open(file_path) as f:
@@ -118,7 +121,7 @@ if st.button("Search"):
                 score = match['score']
                 text = match['metadata']['text']
                 words = text.replace('\n', ' ').strip().split()
-                truncated_text = ' '.join(words[:30]) + "..."
+                truncated_text = ' '.join(words[:context_length]) + "..." if len(words) > context_length else ' '.join(words)
         
                 page_key = page_number.split(" page")[0].strip()
                 
