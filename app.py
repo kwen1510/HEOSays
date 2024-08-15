@@ -81,7 +81,7 @@ if st.button("Search"):
         page_number = match['metadata']['page_number']
         score = match['score']
         text = match['metadata']['text']
-        words = result['text'].replace('\n', ' ').strip().split()
+        words = text.replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
 
         page_key = result['page_number'].split(" page")[0].strip()
