@@ -107,7 +107,7 @@ if st.button("Search"):
         # Display the table
         st.table(deadlines)
 
-        pass
+        break
             
     query_results = search(query, num_results)
 
