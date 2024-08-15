@@ -88,7 +88,7 @@ if st.button("Search"):
         
         link = links_data.get(page_key, "No link available")
         
-        st.text("Page: " + result['page_number'] + " (Score: " + score + ")" + "\nContext: " + truncated_text + "\n------\n")
+        st.text("Page: " + page_number + " (Score: " + score + ")" + "\nContext: " + truncated_text + "\n------\n")
         st.markdown(f"[Click here to access the document]({link})")
 
     # for result in search_results:
