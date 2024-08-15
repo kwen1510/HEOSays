@@ -6,6 +6,7 @@ from pinecone import Pinecone
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
+from fuzzywuzzy import process
 
 # Load JSON Data
 def load_json_file(file_path):
@@ -17,8 +18,6 @@ def load_json_file(file_path):
 links_data = load_json_file("links.json")
 deadlines = load_json_file("deadlines.json")
 
-from fuzzywuzzy import process
-
 # Define the variants of "deadlines"
 variants = ["deadline", "final date", "due date", "cut-off date", "submission date", "time limit"]
 
@@ -27,14 +26,17 @@ input_string = "The final date for submissions is approaching."
 
 # Function to perform fuzzy search and return fixed text if match is found
 def fuzzy_search(text, variants, threshold=80):
-    # Check each variant in the variants list
-    for variant in variants:
+    # Split the input text into individual words or phrases
+    words = text.split()
+    
+    # Check each word against the variants list using fuzzy matching
+    for word in words:
         # Use fuzzy matching to find the closest match and its score
-        match, score = process.extractOne(variant, [text])
-        # If the score exceeds the threshold, return the fixed wall of text
+        match, score = process.extractOne(word, variants)
+        # If the score exceeds the threshold, return the fixed phrase
         if score > threshold:
             return "want deadlines"
-    # If no variant exceeds the threshold, return an indication of no match
+    # If no word exceeds the threshold, return an indication of no match
     return "No relevant deadlines found."
 
 uri = st.secrets["MONGO_DB"]
