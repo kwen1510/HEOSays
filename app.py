@@ -97,12 +97,13 @@ if st.button("Search"):
             
             link = links_data.get(page_key, "No link available")
             
-            st.text(f"Page: {page_number} (Score: {score * 100:.2f}%)\nContext: {truncated_text}\n------\n")
+            st.text(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
             
             st.markdown(f"[Click here to access the document]({link})")
 
     else:
-        st.text("I found nothing...")
+        print("No relevent sources found")
+        st.text("I could not find anything relevant :(")
 
     # for result in search_results:
     #     words = result['text'].replace('\n', ' ').strip().split()
