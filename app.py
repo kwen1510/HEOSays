@@ -102,6 +102,8 @@ if st.button("Search"):
 
     if result == "want deadlines":
 
+        st.text(result)
+
         st.subheader("Seems like you are interested in the application deadlines:")
         
         # Display the table
