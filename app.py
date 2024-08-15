@@ -25,7 +25,7 @@ variants = ["deadline", "final date", "due date", "cut-off date", "submission da
 input_string = "The final date for submissions is approaching."
 
 # Function to perform fuzzy search and return fixed text if match is found
-def fuzzy_search(text, variants, threshold=90):
+def fuzzy_search(text, variants, threshold=85):
     # Split the input text into individual words or phrases
     words = text.split()
     
@@ -102,9 +102,9 @@ if st.button("Search"):
     # Perform the fuzzy search to see if the person wants deadlines
     result = fuzzy_search(input_string, variants)
 
+    st.text(result)
+    
     if result == "want deadlines":
-
-        st.text(result)
 
         st.subheader("Seems like you are interested in the application deadlines:")
         
