@@ -123,6 +123,11 @@ if st.button("Search"):
             
             st.markdown(f"[Click here to access the document]({link})")
 
+            # Perform the fuzzy search
+            result = fuzzy_search(input_string, variants)
+
+            st.text(result)
+
     else:
         print("No relevent sources found")
         st.text("I could not find anything relevant :(")
