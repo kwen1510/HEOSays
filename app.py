@@ -80,6 +80,9 @@ uri = os.getenv('MONGO_DB')
 
 # Load your API key securely
 openai_api_key = os.getenv("OPENAI_API_KEY")
+
+st.write(openai_api_key)
+
 organization = os.getenv('OPENAI_ORGANISATION')
 model = os.getenv("OPENAI_MODEL")
 
