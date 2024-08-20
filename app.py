@@ -208,7 +208,7 @@ if st.button("Search"):
         st.subheader("AI Summary")
         st.markdown(
             f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
-            f"<br>{get_ai_response(prompt)}<br>------<br>"
+            f"{get_ai_response(prompt)}<br>------<br>"
             f"</pre>", unsafe_allow_html=True
         )
 
@@ -237,6 +237,8 @@ if st.button("Search"):
                     link = links_data.get(page_key, "No link available")
                     
                     # st.write(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
+
+                    st.subheader("Documents found")
     
                     st.markdown(
                         f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
