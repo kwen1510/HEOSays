@@ -149,7 +149,7 @@ def get_ai_response(query):
             messages=[{"role": "user", "content": query}],
             stream=False  # Adjust based on your actual requirement
         )
-        return completion.choices[0].text
+        return completion.choices[0].message.content
     except Exception as e:
         st.error(f"Failed to obtain AI response: {str(e)}")
 
