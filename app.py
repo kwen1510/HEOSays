@@ -8,6 +8,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
 import random
+from openai import OpenAI
 # from fuzzywuzzy import process
 
 # Set page config
@@ -42,6 +43,15 @@ st.markdown(
 
 # Need to include the parameters here
 context_length = 30
+
+# Load your API key securely
+api_key = os.getenv["OPENAI_API_KEY"]
+organization = os.getenv["OPENAI_ORGANISATION"]
+
+client = OpenAI(
+    api_key=api_key,
+    organization=organization
+)
 
 # Load JSON Data
 def load_json_file(file_path):
