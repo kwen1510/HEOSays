@@ -184,3 +184,14 @@ if st.button("Search"):
                 f"{random_line}"
                 f"</pre>", unsafe_allow_html=True
             )
+
+
+            # Just insert the deadlines anyway
+            result = "want deadlines"
+            
+            if result == "want deadlines":
+        
+                st.subheader("You might also be interested in the application deadlines:")
+                
+                # Display the table
+                st.table(deadlines)
