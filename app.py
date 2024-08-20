@@ -203,9 +203,14 @@ if st.button("Search"):
 
         st.text(joined_text)
         
-        prompt = f"You are a higher education mentor answering student queries about higher education stuff. Please answer the question using only information from the text below. ### Question: {query} ### Text: {joined_text} ### Your output should just be your answer to the person"
-        
-        st.write(get_ai_response(prompt))
+        prompt = f"You are a higher education mentor answering student queries about higher education stuff. Please answer the question using only information from the text below. ### Question: {query} ### Text: {joined_text} ### Your output should just be your answer to the person. If you cannot find any relevant information, please say: 'I am unsure...'"
+
+        st.write("AI Response")
+        st.markdown(
+            f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
+            f"Context: <br>{get_ai_response(prompt)}<br>------<br>"
+            f"</pre>", unsafe_allow_html=True
+        )
 
         for match in query_results['matches']:
 
