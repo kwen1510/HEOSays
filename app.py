@@ -145,18 +145,13 @@ query = st.text_input("Enter your query here")
 num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
-    
-    # stream_openai_responses()
 
-    stream = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": "Say this is a test"}],
-        stream=True,
+    completion = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+            {"role": "user", "content": "write a haiku about ai"}
+        ]
     )
-
-    for chunk in stream:
-        if chunk.choices[0].delta.content is not None:
-            st.write(chunk.choices[0].delta.content, end="")
 
     # Set threshold value (this is an abitrary value)
     threshold = 0.4
