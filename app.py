@@ -210,6 +210,8 @@ if st.button("Search"):
             f"</pre>", unsafe_allow_html=True
         )
 
+        st.subheader("Documents found")
+
         for match in query_results['matches']:
 
             # Check if current number >= top_k. If greater than 3, break out of the loop
@@ -217,8 +219,6 @@ if st.button("Search"):
                 break
 
             if top_score >= threshold:
-
-                st.subheader("Documents found")
            
                 page_number = match['metadata']['page_number']
 
