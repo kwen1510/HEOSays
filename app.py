@@ -79,10 +79,10 @@ input_string = "The final date for submissions is approaching."
 uri = os.getenv('MONGO_DB')
 
 # Load your API key securely
-api_key = os.getenv("PINECONE_API_KEY")
-organization = os.getenv('OPENAI_ORGANISATION')
+# api_key = os.getenv("PINECONE_API_KEY")
+organization = os.getenv('ORGANISATION')
 
-st.text(api_key)
+# st.text(api_key)
 st.text(organization)
 
 # client = OpenAI(
