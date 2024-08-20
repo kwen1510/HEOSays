@@ -55,8 +55,6 @@ st.text(api_key, organization)
 #     organization=organization
 # )
 
-client = OpenAI()
-
 # Load JSON Data
 def load_json_file(file_path):
     with open(file_path) as f:
