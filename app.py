@@ -159,12 +159,9 @@ query = st.text_input("Enter your query here")
 num_results = 10 # Get 10 results to rerank
 
 
-# Relevant text for the AI model
-relevant_text = []
+
 
 if st.button("Search"):
-
-    st.write(get_ai_response("What does the fox say?"))
 
     # Set threshold value (this is an abitrary value)
     threshold = 0.4
@@ -183,6 +180,30 @@ if st.button("Search"):
         pages_list = []
         top_k = 3 # To only return the top k value
         current_number = 0 # Initial response
+
+        ## Create the AI response first
+
+        # Relevant text for the AI model
+        relevant_text = []
+
+        # Concatenate all responses
+        for current_index, match in enumerate(query_results['matches']):
+
+            if current_index < 5:
+
+                relevant_text.append(match['metadata']['text'])
+
+            else:
+                break
+
+
+        # Create prompt
+
+        joined_text = " ".join(relevant_text)
+        
+        prompt = f"Please answer the question using only information from the text below. ### Question: {query} ### Text: {joined_text} ### Your output should just be your answer to the person"
+        
+        st.write(get_ai_response(prompt))
 
         for match in query_results['matches']:
 
