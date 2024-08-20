@@ -18,6 +18,25 @@ st.set_page_config(
     initial_sidebar_state="expanded",  # Optional: Use "expanded" or "collapsed"
 )
 
+st.markdown(
+    """
+    <meta property="og:title" content="HEOSays">
+    <meta property="og:description" content="HEOSays">
+    """,
+    unsafe_allow_html=True,
+)
+
+# st.markdown(
+#     """
+#     <meta property="og:title" content="HEOSays">
+#     <meta property="og:description" content="Your custom description here.">
+#     <meta property="og:image" content="URL_to_your_image">
+#     <meta property="og:url" content="https://heo-says-37d5f8bda04f.herokuapp.com/">
+#     """,
+#     unsafe_allow_html=True,
+# )
+
+
 # Load environment variables from .env file
 # load_dotenv()
 
