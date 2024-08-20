@@ -134,8 +134,8 @@ num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
 
-    # Set threshold value
-    threshold = 0.2
+    # Set threshold value (this is an abitrary value)
+    threshold = 0.4
 
     query_results = search(query, num_results)
 
