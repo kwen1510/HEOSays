@@ -45,8 +45,8 @@ st.markdown(
 context_length = 30
 
 # Load your API key securely
-api_key = os.getenv("OPENAI_API_KEY")
-organization = os.getenv("OPENAI_ORGANISATION")
+api_key = st.secrets["OPENAI_API_KEY"]
+organization = st.secrets["OPENAI_ORGANISATION"]
 
 st.text(api_key)
 st.text(organization)
