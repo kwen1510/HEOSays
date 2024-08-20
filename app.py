@@ -163,127 +163,99 @@ num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
 
-    # Set threshold value (this is an abitrary value)
-    threshold = 0.4
-
-    query_results = search(query, num_results)
-
-    # Check top score first. If below threshold, reject
-    top_score = query_results['matches'][0]['score']
-    print(top_score)
-
-    if top_score >= threshold:
-
-        ## To ensure that same pages are not repeated.
-
-        # Create new empty object
-        pages_list = []
-        top_k = 3 # To only return the top k value
-        current_number = 0 # Initial response
-
-        ## Create the AI response first
-
-        # Relevant text for the AI model
-        relevant_text = []
-
-        # Concatenate all responses
-        for current_index, match in enumerate(query_results['matches']):
-
-            if current_index < 5:
-
-                relevant_text.append(match['metadata']['text'])
-
-            else:
-                break
-
-
-        # Create prompt
-
-        joined_text = " ".join(relevant_text)
-        
-        prompt = f"You are a higher education mentor answering student queries about higher education stuff. Please answer the question using only information from the text below. ### Question: {query} ### Text: {joined_text} ### Your output should just be your answer to the person. If you cannot find any relevant information, please say: 'I am unsure...'"
-
-        st.subheader("AI Summary")
-        st.markdown(
-            f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
-            f"{get_ai_response(prompt)}<br>------<br>"
-            f"</pre>", unsafe_allow_html=True
-        )
-
-        st.subheader("Documents found")
-
-        for match in query_results['matches']:
-
-            # Check if current number >= top_k. If greater than 3, break out of the loop
-            if current_number > top_k:
-                break
-
-            if top_score >= threshold:
-           
-                page_number = match['metadata']['page_number']
-
-                # If the page number does not exist yet
-                if page_number not in pages_list:
-                    # Append the page number to the list then run the code
-                    pages_list.append(page_number)
-                
-                    score = match['score']
-                    text = match['metadata']['text']
-                    words = text.replace('\n', ' ').strip().split()
-                    truncated_text = ' '.join(words[:context_length]) + "..." if len(words) > context_length else ' '.join(words)
-            
-                    page_key = page_number.split(" page")[0].strip()
-                    
-                    link = links_data.get(page_key, "No link available")
-                    
-                    # st.write(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
-    
-                    st.markdown(
-                        f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
-                        f"Page: {page_number} (Score: {score * 100:.0f}%)<br>"
-                        f"Context: {truncated_text}<br>------<br>"
-                        f"</pre>", unsafe_allow_html=True
-                    )
-                    
-                    st.markdown(f"[Click here to access the document]({link})")
-
-                    current_number += 1
-
-        # # Perform the fuzzy search to see if the person wants deadlines (append to end)
-        # result = fuzzy_search(input_string, variants)
-
-        # Just insert the deadlines anyway
-        result = "want deadlines"
-        
-        if result == "want deadlines":
-    
-            st.subheader("You might also be interested in the application deadlines:")
-            
-            # Display the table
-            st.table(deadlines)
+    if query.strip() == "":  # Check if the query is empty after stripping
+        st.error("Please enter a valid query before searching.")
 
     else:
-        # Define a list of philosophical lines
-        philosophical_lines = [
-            "Amid the clutter of existence, I search for meaning, like a shadow chasing light, only to grasp at echoes of understanding that slip through my fingers like sand.",
-            "In the labyrinth of life, I wander, seeking answers that often elude me, and in this journey, I find that not all that is sought can be found, nor all that is lost is missing.",
-            "I pursue the intangible with a fervor, seeking the unseeable stars hidden behind the daylight, learning that the quest itself enriches more than the discovery.",
-            "Each day, I delve into the depths of the mind's caverns, reaching for truths veiled in obscurity, only to realize the treasure lies in the search, not the spoils.",
-            "As I chase the horizons of understanding, they retreat ever further into the mists of unknowing, teaching me that in the pursuit of knowledge, the path walked is the wisdom gained."
-        ]
-        
-        # Streamlit interface handling for no relevant results
-        if top_score < threshold:
-            # Select a random philosophical line
-            random_line = random.choice(philosophical_lines)
-            print("No relevant sources found")
+        # Set threshold value (this is an abitrary value)
+        threshold = 0.4
+    
+        query_results = search(query, num_results)
+    
+        # Check top score first. If below threshold, reject
+        top_score = query_results['matches'][0]['score']
+        print(top_score)
+    
+        if top_score >= threshold:
+    
+            ## To ensure that same pages are not repeated.
+    
+            # Create new empty object
+            pages_list = []
+            top_k = 3 # To only return the top k value
+            current_number = 0 # Initial response
+    
+            ## Create the AI response first
+    
+            # Relevant text for the AI model
+            relevant_text = []
+    
+            # Concatenate all responses
+            for current_index, match in enumerate(query_results['matches']):
+    
+                if current_index < 5:
+    
+                    relevant_text.append(match['metadata']['text'])
+    
+                else:
+                    break
+    
+    
+            # Create prompt
+    
+            joined_text = " ".join(relevant_text)
+            
+            prompt = f"You are a higher education mentor answering student queries about higher education stuff. Please answer the question using only information from the text below. ### Question: {query} ### Text: {joined_text} ### Your output should just be your answer to the person. If you cannot find any relevant information, please say: 'I am unsure...'"
+    
+            st.subheader("AI Summary")
             st.markdown(
                 f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
-                f"{random_line}"
+                f"{get_ai_response(prompt)}<br>------<br>"
                 f"</pre>", unsafe_allow_html=True
             )
-
-
+    
+            st.subheader("Documents found")
+    
+            for match in query_results['matches']:
+    
+                # Check if current number >= top_k. If greater than 3, break out of the loop
+                if current_number > top_k:
+                    break
+    
+                if top_score >= threshold:
+               
+                    page_number = match['metadata']['page_number']
+    
+                    # If the page number does not exist yet
+                    if page_number not in pages_list:
+                        # Append the page number to the list then run the code
+                        pages_list.append(page_number)
+                    
+                        score = match['score']
+                        text = match['metadata']['text']
+                        words = text.replace('\n', ' ').strip().split()
+                        truncated_text = ' '.join(words[:context_length]) + "..." if len(words) > context_length else ' '.join(words)
+                
+                        page_key = page_number.split(" page")[0].strip()
+                        
+                        link = links_data.get(page_key, "No link available")
+                        
+                        # st.write(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
+        
+                        st.markdown(
+                            f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
+                            f"Page: {page_number} (Score: {score * 100:.0f}%)<br>"
+                            f"Context: {truncated_text}<br>------<br>"
+                            f"</pre>", unsafe_allow_html=True
+                        )
+                        
+                        st.markdown(f"[Click here to access the document]({link})")
+    
+                        current_number += 1
+    
+            # # Perform the fuzzy search to see if the person wants deadlines (append to end)
+            # result = fuzzy_search(input_string, variants)
+    
             # Just insert the deadlines anyway
             result = "want deadlines"
             
@@ -293,3 +265,35 @@ if st.button("Search"):
                 
                 # Display the table
                 st.table(deadlines)
+    
+        else:
+            # Define a list of philosophical lines
+            philosophical_lines = [
+                "Amid the clutter of existence, I search for meaning, like a shadow chasing light, only to grasp at echoes of understanding that slip through my fingers like sand.",
+                "In the labyrinth of life, I wander, seeking answers that often elude me, and in this journey, I find that not all that is sought can be found, nor all that is lost is missing.",
+                "I pursue the intangible with a fervor, seeking the unseeable stars hidden behind the daylight, learning that the quest itself enriches more than the discovery.",
+                "Each day, I delve into the depths of the mind's caverns, reaching for truths veiled in obscurity, only to realize the treasure lies in the search, not the spoils.",
+                "As I chase the horizons of understanding, they retreat ever further into the mists of unknowing, teaching me that in the pursuit of knowledge, the path walked is the wisdom gained."
+            ]
+            
+            # Streamlit interface handling for no relevant results
+            if top_score < threshold:
+                # Select a random philosophical line
+                random_line = random.choice(philosophical_lines)
+                print("No relevant sources found")
+                st.markdown(
+                    f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
+                    f"{random_line}"
+                    f"</pre>", unsafe_allow_html=True
+                )
+    
+    
+                # Just insert the deadlines anyway
+                result = "want deadlines"
+                
+                if result == "want deadlines":
+            
+                    st.subheader("You might also be interested in the application deadlines:")
+                    
+                    # Display the table
+                    st.table(deadlines)
