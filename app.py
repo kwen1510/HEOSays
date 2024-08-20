@@ -200,8 +200,6 @@ if st.button("Search"):
         # Create prompt
 
         joined_text = " ".join(relevant_text)
-
-        st.text(joined_text)
         
         prompt = f"You are a higher education mentor answering student queries about higher education stuff. Please answer the question using only information from the text below. ### Question: {query} ### Text: {joined_text} ### Your output should just be your answer to the person. If you cannot find any relevant information, please say: 'I am unsure...'"
 
