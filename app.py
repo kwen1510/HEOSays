@@ -130,7 +130,7 @@ st.title("HEOSays")
 
 query = st.text_input("Enter your query here")
 # num_results = st.slider("Number of results", 1, 5, 3, 1)
-num_results = 5
+num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
 
@@ -145,30 +145,49 @@ if st.button("Search"):
 
     if top_score >= threshold:
 
+        ## To ensure that same pages are not repeated.
+
+        # Create new empty object
+        pages_list = []
+        top_k = 3 # To only return the top k value
+        current_number = 0 # Initial response
+
         for match in query_results['matches']:
+
+            # Check if current number >= top_k. If greater than 3, break out of the loop
+            if current_number >= top_k:
+                break
 
             if top_score >= threshold:
            
                 page_number = match['metadata']['page_number']
-                score = match['score']
-                text = match['metadata']['text']
-                words = text.replace('\n', ' ').strip().split()
-                truncated_text = ' '.join(words[:context_length]) + "..." if len(words) > context_length else ' '.join(words)
-        
-                page_key = page_number.split(" page")[0].strip()
-                
-                link = links_data.get(page_key, "No link available")
-                
-                # st.write(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
 
-                st.markdown(
-                    f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
-                    f"Page: {page_number} (Score: {score * 100:.0f}%)<br>"
-                    f"Context: {truncated_text}<br>------<br>"
-                    f"</pre>", unsafe_allow_html=True
-                )
+                # If the page number does not exist yet
+                if page_number not in pages_list:
+                    # Append the page number to the list then run the code
+                    pages_list.append(page_number)
                 
-                st.markdown(f"[Click here to access the document]({link})")
+                    score = match['score']
+                    text = match['metadata']['text']
+                    words = text.replace('\n', ' ').strip().split()
+                    truncated_text = ' '.join(words[:context_length]) + "..." if len(words) > context_length else ' '.join(words)
+            
+                    page_key = page_number.split(" page")[0].strip()
+                    
+                    link = links_data.get(page_key, "No link available")
+                    
+                    # st.write(f"Page: {page_number} (Score: {score * 100:.0f}%)\nContext: {truncated_text}\n------\n")
+    
+                    st.markdown(
+                        f"<pre style='font-size:smaller; white-space: pre-wrap; word-wrap: break-word;'>"
+                        f"Page: {page_number} (Score: {score * 100:.0f}%)<br>"
+                        f"Context: {truncated_text}<br>------<br>"
+                        f"</pre>", unsafe_allow_html=True
+                    )
+                    
+                    st.markdown(f"[Click here to access the document]({link})")
+
+                    current_number += 1
 
         # # Perform the fuzzy search to see if the person wants deadlines (append to end)
         # result = fuzzy_search(input_string, variants)
