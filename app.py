@@ -46,7 +46,7 @@ context_length = 30
 
 # Load your API key securely
 api_key = st.secrets["PINECONE_API_KEY"]
-organization = st.secrets["OPENAI_ORGANISATION"]
+# organization = st.secrets["OPENAI_ORGANISATION"]
 
 st.text(api_key)
 st.text(organization)
