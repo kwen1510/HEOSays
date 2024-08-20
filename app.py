@@ -158,6 +158,10 @@ query = st.text_input("Enter your query here")
 # num_results = st.slider("Number of results", 1, 5, 3, 1)
 num_results = 10 # Get 10 results to rerank
 
+
+# Relevant text for the AI model
+relevant_text = []
+
 if st.button("Search"):
 
     st.write(get_ai_response("What does the fox say?"))
