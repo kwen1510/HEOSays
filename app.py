@@ -83,7 +83,7 @@ api_key = os.getenv("PINECONE_API_KEY")
 organization = os.getenv('OPENAI_ORGANISATION')
 model = os.getenv("OPENAI_MODEL")
 
-client = OpenAI(
+openai_client = OpenAI(
     api_key=api_key,
     organization=organization
 )
@@ -140,18 +140,26 @@ def search(query, num_results=1):
 # Streamlit interface
 st.title("HEOSays")
 
+# OpenAI Completions code
+def get_ai_response(query):
+    try:
+        completion = openai_client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": query}],
+            stream=False  # Adjust based on your actual requirement
+        )
+        return completion.choices[0].text
+    except Exception as e:
+        st.error(f"Failed to obtain AI response: {str(e)}")
+
+
 query = st.text_input("Enter your query here")
 # num_results = st.slider("Number of results", 1, 5, 3, 1)
 num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
 
-    completion = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[
-            {"role": "user", "content": "write a haiku about ai"}
-        ]
-    )
+    get_ai_response("What does the fox say?")
 
     # Set threshold value (this is an abitrary value)
     threshold = 0.4
