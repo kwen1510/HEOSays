@@ -81,12 +81,22 @@ uri = os.getenv('MONGO_DB')
 # Load your API key securely
 api_key = os.getenv("PINECONE_API_KEY")
 organization = os.getenv('OPENAI_ORGANISATION')
+model = os.getenv("OPENAI_MODEL")
 
 client = OpenAI(
     api_key=api_key,
     organization=organization
 )
 
+def stream_openai_responses():
+    stream = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": "WHat is the weather today?"}],
+        stream=True
+    )
+    for chunk in stream:
+        if chunk.choices[0].delta.content is not None:
+            st.write(chunk.choices[0].delta.content)
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -145,6 +155,8 @@ query = st.text_input("Enter your query here")
 num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
+    
+    stream_openai_responses()
 
     # Set threshold value (this is an abitrary value)
     threshold = 0.4
