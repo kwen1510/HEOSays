@@ -155,8 +155,8 @@ if st.button("Search"):
     )
 
     for chunk in stream:
-    if chunk.choices[0].delta.content is not None:
-        st.write(chunk.choices[0].delta.content, end="")
+        if chunk.choices[0].delta.content is not None:
+            st.write(chunk.choices[0].delta.content, end="")
 
     # Set threshold value (this is an abitrary value)
     threshold = 0.4
