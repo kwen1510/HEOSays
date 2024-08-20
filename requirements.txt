@@ -4,3 +4,4 @@ cohere
 pymongo
 pinecone-client
 fuzzywuzzy
+openai
