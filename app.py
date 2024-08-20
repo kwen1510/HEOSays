@@ -48,10 +48,12 @@ context_length = 30
 api_key = os.getenv("OPENAI_API_KEY")
 organization = os.getenv("OPENAI_ORGANISATION")
 
-client = OpenAI(
-    api_key=api_key,
-    organization=organization
-)
+# client = OpenAI(
+#     api_key=api_key,
+#     organization=organization
+# )
+
+client = OpenAI()
 
 # Load JSON Data
 def load_json_file(file_path):
