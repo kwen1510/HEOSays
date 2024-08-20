@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # Load environment variables from .env file
-load_dotenv()
+# load_dotenv()
 
 # Need to include the parameters here
 context_length = 50
