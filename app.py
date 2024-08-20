@@ -48,6 +48,8 @@ context_length = 30
 api_key = os.getenv("OPENAI_API_KEY")
 organization = os.getenv("OPENAI_ORGANISATION")
 
+st.text(api_key, organisation)
+
 # client = OpenAI(
 #     api_key=api_key,
 #     organization=organization
