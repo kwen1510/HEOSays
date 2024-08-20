@@ -41,7 +41,7 @@ st.markdown(
 # load_dotenv()
 
 # Need to include the parameters here
-context_length = 50
+context_length = 30
 
 # Load JSON Data
 def load_json_file(file_path):
@@ -135,7 +135,7 @@ num_results = 10 # Get 10 results to rerank
 if st.button("Search"):
 
     # Set threshold value
-    threshold = 0.4
+    threshold = 0.2
 
     query_results = search(query, num_results)
 
