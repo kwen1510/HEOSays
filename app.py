@@ -80,7 +80,7 @@ uri = os.getenv('MONGO_DB')
 
 # Load your API key securely
 # api_key = os.getenv("PINECONE_API_KEY")
-organization = os.getenv('ORGANISATION')
+organization = os.getenv('NAMESPACE')
 
 # st.text(api_key)
 st.text(organization)
