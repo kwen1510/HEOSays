@@ -44,17 +44,6 @@ st.markdown(
 # Need to include the parameters here
 context_length = 30
 
-# Load your API key securely
-api_key = st.secrets["PINECONE_API_KEY"]
-# organization = st.secrets["OPENAI_ORGANISATION"]
-
-st.text(api_key)
-st.text(organization)
-
-# client = OpenAI(
-#     api_key=api_key,
-#     organization=organization
-# )
 
 # Load JSON Data
 def load_json_file(file_path):
@@ -88,6 +77,19 @@ input_string = "The final date for submissions is approaching."
 #     return "No relevant deadlines found."
 
 uri = os.getenv('MONGO_DB')
+
+# Load your API key securely
+api_key = os.getenv("PINECONE_API_KEY")
+organization = os.getenv("OPENAI_ORGANISATION")
+
+st.text(api_key)
+st.text(organization)
+
+# client = OpenAI(
+#     api_key=api_key,
+#     organization=organization
+# )
+
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
