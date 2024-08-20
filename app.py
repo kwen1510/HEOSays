@@ -155,7 +155,7 @@ if st.button("Search"):
         for match in query_results['matches']:
 
             # Check if current number >= top_k. If greater than 3, break out of the loop
-            if current_number >= top_k:
+            if current_number > top_k:
                 break
 
             if top_score >= threshold:
