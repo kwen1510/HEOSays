@@ -160,7 +160,7 @@ num_results = 10 # Get 10 results to rerank
 
 if st.button("Search"):
 
-    get_ai_response("What does the fox say?")
+    st.write(get_ai_response("What does the fox say?"))
 
     # Set threshold value (this is an abitrary value)
     threshold = 0.4
